@@ -39,4 +39,23 @@ public class UserService {
 		findById(id); //tratamento de exceção caso o ID não exista
 		repo.deleteById(id);
 	}
+	
+	public User update(User obj) {
+	    Optional<User> obj2 = repo.findById(obj.getId());
+
+	    if (obj2.isPresent()) {
+	        User newObj = obj2.get();  
+	        updateData(newObj, obj); 
+	        return repo.save(newObj);
+	    } else {
+	        throw new ObjectNotFoundException("Object not found");
+	    }
+	}
+
+
+	private void updateData(User temp, User obj) {
+	    temp.setName(obj.getName());
+	    temp.setEmail(obj.getEmail());
+	}
+
 }
